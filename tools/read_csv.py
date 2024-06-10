@@ -13,7 +13,7 @@ def get_availability():
     """
     Walks all files in the Availability directory, 
     asks user to select desired file if more than one, 
-    returns the file path of the selected file.
+    returns the file path of the selected file as a str.
     """
     csv_files = []
     desired_index = 0
@@ -32,7 +32,7 @@ def get_availability():
     if len(csv_files) < 1:
        raise NoFileFoundException(f"No \"*.csv\" files were found in the {CSV_DIRECTORY_NAME} folder. Please add one.") 
     
-    return (CSV_DIRECTORY).joinpath(csv_files[desired_index])
+    return str((CSV_DIRECTORY).joinpath(csv_files[desired_index]))
 
 if __name__ == "__main__":
     availability = get_availability()
