@@ -5,6 +5,7 @@ from pathlib import Path
 from exceptions import NoFileFoundException
 
 CSV_DIRECTORY_NAME = "Availability"
+
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 PARENT_DIRECTORY = Path(CURRENT_DIRECTORY).parent
 CSV_DIRECTORY = (PARENT_DIRECTORY).joinpath(CSV_DIRECTORY_NAME)
