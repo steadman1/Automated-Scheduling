@@ -4,20 +4,21 @@ from time_availability import TimeAvailability
 class LessonsInstructors():
     def __init__(self) -> None:
         self.instructors = []
-        
+    
     def add_instructor(self, instructor):
-        self.instructors.append(instructor)
-        
+        if any(instructor.time_availability.availability):
+            self.instructors.append(instructor)
+    
     def sort(self):
         self._sort_by_unix_time()
         self._sort_by_seniority()
-        
+    
     def _sort_by_seniority(self):
         self.instructors.sort(key=lambda x: x.seniority, reverse=True)
     
     def _sort_by_unix_time(self):
         self.instructors.sort(key=lambda x: x.date)
-        
+    
     def __str__(self) -> str:
         return "\n".join([str(instructor) for instructor in self.instructors])
     
@@ -58,7 +59,7 @@ class LessonsInstructor():
         self.time_availability = time_availability
         
     def __str__(self) -> str:
-        return f"{self.date} - {self.first_name} {self.last_name} - {self.seniority}"
+        return f"{self.first_name} {self.last_name} {self.time_availability}"
     
     @staticmethod
     def from_csv(row):

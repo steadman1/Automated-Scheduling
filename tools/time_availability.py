@@ -1,42 +1,64 @@
+class TimeBlockSwitching:
+    def __init__(self, beginning, b_meridiem, end, e_meridiem) -> None:
+        self.beginning = beginning
+        self.b_meridiem = b_meridiem
+        self.end = end
+        self.e_meridiem = e_meridiem
+        
+    def __str__(self) -> str:
+        return f"{self.beginning}{self.b_meridiem if self.b_meridiem != self.e_meridiem else ""}-{self.end}{self.e_meridiem}"
+ 
+
+class TimeBlock(TimeBlockSwitching):
+    def __init__(self, beginning, end, meridiem) -> None:
+        super().__init__(beginning, meridiem, end, meridiem)
+
 class TimeAvailability:
     def __init__(self, text) -> None:
         """
         takes a text arg from a *.csv row,
-        parses it looking for a specific string
-        within the text,
-        sets time as true for object
+        parses row looking for string
+        mathching given time within text,
+        sets time object as true if found
         """
         
         text = text.lower().replace(" ", "")
         
-        self._1000a = "10:00-10:45am" in text
-        self._1045a = "10:45-11:30am" in text
-        self._1130a = "11:30-12:15pm" in text
-        self._1215p = "12:15-1:00pm" in text
-        self._100p = "1:00-2:30pm" in text
-        self._230p = "2:30-3:15pm" in text
-        self._315p = "3:15-4:00pm" in text
-        self._400p = "4:00-4:45pm" in text
-        self._445p = "4:45-5:30pm" in text
-        self._530p = "5:30-6:15pm" in text
-        self._615p = "6:15-7:00pm" in text
-        
-    def get_availability(self):
-        """
-        returns a list of 11 bool values
-        that equate to the instructors
-        availability during the given time slots
-        """
-        return [
-            self._1000a,
-            self._1045a,
-            self._1130a,
-            self._1215p,
-            self._100p,
-            self._230p,
-            self._315p,
-            self._400p,
-            self._445p,
-            self._530p,
-            self._615p,
+        self.time_table = [
+            TimeBlock("10:00", "10:45", "am"),
+            TimeBlock("10:45",  "11:30", "am"),
+            TimeBlockSwitching("11:30", "am", "12:15", "pm"),
+            TimeBlock("12:15", "1:00", "pm"),
+            TimeBlock("1:00", "2:30", "pm"),
+            TimeBlock("2:30", "3:15", "pm"),
+            TimeBlock("3:15", "4:00", "pm"),
+            TimeBlock("4:00", "4:45", "pm"),
+            TimeBlock("4:45", "5:30", "pm"),
+            TimeBlock("5:30", "6:15", "pm"),
+            TimeBlock("6:15", "7:00", "pm"),
         ]
+        self.availability = [str(time) in text for time in self.time_table]
+        
+    def __str__(self) -> str:
+        """
+        returns instructor availablity in
+        natural language
+        """
+        indicies = [i for i, x in enumerate(self.availability) if x]
+
+        string = ""
+        
+        def recursive_next_time(index):
+            if len(indicies) > index + 1 and indicies[index + 1] == indicies[index] + 1:
+                return recursive_next_time(index + 1)
+            return index, self.time_table[indicies[index]]
+        
+        index = 0
+        while len(indicies) > index:
+            if not index == 0:
+                string += "and "
+            next_index, time_block = recursive_next_time(index)
+            string += f"from {self.time_table[indicies[index]].beginning}{self.time_table[indicies[index]].b_meridiem} to {time_block.end}{time_block.e_meridiem} "
+            index += next_index + 1
+    
+        return string
