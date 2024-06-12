@@ -59,7 +59,7 @@ class LessonsInstructor():
         self.time_availability = time_availability
         
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name} {self.time_availability}"
+        return f"{self.first_name} {self.last_name} of {self.seniority} year(s) is available {self.time_availability}"
     
     @staticmethod
     def from_csv(row):

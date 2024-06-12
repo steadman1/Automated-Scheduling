@@ -5,8 +5,6 @@ sys.path.append('./tools')
 from tools.read_csv import get_availability
 from tools.lessons_instructor import LessonsInstructor, LessonsInstructors
 
-instructors = []
-
 def main():
     output = get_availability()
     

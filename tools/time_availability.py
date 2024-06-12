@@ -1,4 +1,7 @@
-class TimeBlockSwitching:
+# parent class has longer name
+# bc it should be used less often
+# than the child "TimeBlock" class
+class TimeBlockAMPM:
     def __init__(self, beginning, b_meridiem, end, e_meridiem) -> None:
         self.beginning = beginning
         self.b_meridiem = b_meridiem
@@ -8,8 +11,8 @@ class TimeBlockSwitching:
     def __str__(self) -> str:
         return f"{self.beginning}{self.b_meridiem if self.b_meridiem != self.e_meridiem else ""}-{self.end}{self.e_meridiem}"
  
-
-class TimeBlock(TimeBlockSwitching):
+# child class of "TimeBlockSwitching"
+class TimeBlock(TimeBlockAMPM):
     def __init__(self, beginning, end, meridiem) -> None:
         super().__init__(beginning, meridiem, end, meridiem)
 
@@ -21,13 +24,12 @@ class TimeAvailability:
         mathching given time within text,
         sets time object as true if found
         """
-        
         text = text.lower().replace(" ", "")
         
         self.time_table = [
             TimeBlock("10:00", "10:45", "am"),
             TimeBlock("10:45",  "11:30", "am"),
-            TimeBlockSwitching("11:30", "am", "12:15", "pm"),
+            TimeBlockAMPM("11:30", "am", "12:15", "pm"),
             TimeBlock("12:15", "1:00", "pm"),
             TimeBlock("1:00", "2:30", "pm"),
             TimeBlock("2:30", "3:15", "pm"),
