@@ -31,7 +31,6 @@ class TimeAvailability:
             self.time_table.append(TimeBlock(start.replace(s_meridiem, ""), s_meridiem, end.replace(e_meridiem, ""), e_meridiem))
         
         self.availability = [str(time) in text for time in self.time_table]
-        print(self.availability)
         
     def __str__(self) -> str:
         """

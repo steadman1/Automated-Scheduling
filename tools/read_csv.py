@@ -10,7 +10,7 @@ CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 PARENT_DIRECTORY = Path(CURRENT_DIRECTORY).parent
 CSV_DIRECTORY = (PARENT_DIRECTORY).joinpath(CSV_DIRECTORY_NAME)
 
-def get_availability():
+def get_availability_csv_file():
     """
     Walks all files in the Availability directory, 
     asks user to select desired file if more than one, 
@@ -36,5 +36,5 @@ def get_availability():
     return str((CSV_DIRECTORY).joinpath(csv_files[desired_index]))
 
 if __name__ == "__main__":
-    availability = get_availability()
+    availability = get_availability_csv_file()
     print(availability)
