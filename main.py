@@ -11,7 +11,11 @@ def main():
     with open(output, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         
+        session_dates = input("Enter all dates of session (ex. 11, 12, 13, 14): ")
+        session_dates = session_dates.replace(" ", "").split(",")
+        
         instructors = LessonsInstructors.from_csv(reader, skip=1)
+        instructors.set_session_dates(session_dates)
     
     print(instructors)
 

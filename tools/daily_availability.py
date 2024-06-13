@@ -1,0 +1,18 @@
+class DailyAvailability:
+    def __init__(self, session_dates, text) -> None:
+        """
+        takes a text arg from a *.csv row,
+        parses row looking for dates
+        corresponding to the given days
+        of each session,
+        sets index of day in 8 length array
+        as false if found
+        """
+        self.session_dates = session_dates
+        self.days_available = [not day in text for day in session_dates]
+
+    def __str__(self):
+        return f"{self.days_available}"
+        
+    def get_days_off(self):
+        return [self.session_dates[i] for i, day in enumerate(self.days_available) if not day]
