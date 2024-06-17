@@ -14,7 +14,7 @@ def handle_instructors():
     output = get_availability_csv_file()
     
     if not os.path.isfile(output):
-        raise NoFileFoundException(f"*.csv at {output} does not exist or is corrupted.")
+        raise NoFileFoundException(f"The *.csv file at {output} does not exist or is corrupted.")
         
     with open(output, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
