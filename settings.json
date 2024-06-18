@@ -1,9 +1,14 @@
 {
   "pool_count": 2,
   "max_class_count": 14,
+  "highest_level": 5,
+  "swimmer_count_per_class": 5,
   "strict_instructor_levels": false,
   
   "session_times": [
+    {"start": "10:00am", "end": "10:45am"}
+  ],
+  "old_session_times": [
     {"start": "10:00am", "end": "10:45am"},
     {"start": "10:45am", "end": "11:30am"},
     {"start": "11:30am", "end": "12:15pm"},

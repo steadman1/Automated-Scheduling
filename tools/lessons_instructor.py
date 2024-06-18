@@ -13,6 +13,9 @@ class LessonsInstructors():
     def set_session_dates(self, session_dates):
         for instructor in self.instructors:
             instructor.set_daily_availability(session_dates)
+            
+    def get_available_instructors(self, date, time):
+        return [instructor for instructor in self.instructors if instructor.is_available(date, time)]
     
     def sort(self):
         self._sort_by_unix_time()
@@ -27,8 +30,8 @@ class LessonsInstructors():
     def __str__(self) -> str:
         return "\n".join([str(instructor) for instructor in self.instructors])
     
-    @staticmethod
-    def from_csv(reader, skip=1):
+    @classmethod
+    def from_csv(cls, reader, skip=1):
         """
         takes a full *.csv sheet in reader,
         iterates through rows and adds each
@@ -36,7 +39,7 @@ class LessonsInstructors():
         returns a LessonsInstructors object
         """
         
-        instructors = LessonsInstructors()
+        instructors = cls()
         
         for index, row in enumerate(reader):
             if index >= skip:
@@ -67,6 +70,9 @@ class LessonsInstructor():
     
     def set_daily_availability(self, session_dates):
         self.daily_availability = DailyAvailability(session_dates, self.row[6])
+        
+    def is_available(self, date, time):
+        return self.daily_availability.days_available[date.weekday()] and self.time_availability.is_available(time)
     
     def __str__(self) -> str:
         string = f"{self.first_name} {self.last_name} of {self.seniority} year(s) is available {self.time_availability}"
@@ -77,13 +83,13 @@ class LessonsInstructor():
             string += " and is available every day"
         return string
     
-    @staticmethod
-    def from_csv(row):
+    @classmethod
+    def from_csv(cls, row):
         """
         takes a *.csv row,
         returns a LessonsInstructor object
         """
-        return LessonsInstructor(
+        return cls(
             row=row,
             date=to_unix_time(row[0]),
             last_name=row[1],

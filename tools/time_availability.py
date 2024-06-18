@@ -7,8 +7,26 @@ class TimeBlock:
         self.end = end
         self.e_meridiem = e_meridiem
         
+    @classmethod
+    def from_json(cls, json):
+        start = json["start"].replace(" ", "")
+        end = json["end"].replace(" ", "")
+        
+        s_meridiem = start[-2:].lower()
+        e_meridiem = end[-2:].lower()
+    
+        return cls(start.replace(s_meridiem, ""), s_meridiem, end.replace(e_meridiem, ""), e_meridiem)
+        
     def __str__(self) -> str:
         return f"{self.start}{self.s_meridiem if self.s_meridiem != self.e_meridiem else ""}-{self.end}{self.e_meridiem}"
+
+    def __eq__(self, value) -> bool:
+        if isinstance(value, TimeBlock):
+            return self.start == value.start and \
+                self.s_meridiem == value.s_meridiem and \
+                self.end == value.end and \
+                self.e_meridiem == value.e_meridiem
+        return False
 
 class TimeAvailability:
     def __init__(self, text) -> None:
@@ -22,13 +40,7 @@ class TimeAvailability:
         
         self.time_table = []
         for time in json.load(open("settings.json"))["session_times"]:
-            start = time["start"].replace(" ", "")
-            end = time["end"].replace(" ", "")
-            
-            s_meridiem = start[-2:].lower()
-            e_meridiem = end[-2:].lower()
-            
-            self.time_table.append(TimeBlock(start.replace(s_meridiem, ""), s_meridiem, end.replace(e_meridiem, ""), e_meridiem))
+            self.time_table.append(TimeBlock.from_json(time))
         
         self.availability = [str(time) in text for time in self.time_table]
         

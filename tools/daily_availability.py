@@ -9,10 +9,15 @@ class DailyAvailability:
         as false if found
         """
         self.session_dates = session_dates
+        
+        # list of bool values for each day of the week
         self.days_available = [not day in text for day in session_dates]
 
     def __str__(self):
         return f"{self.days_available}"
         
     def get_days_off(self):
+        """
+        returns a list of days off
+        """
         return [self.session_dates[i] for i, day in enumerate(self.days_available) if not day]
