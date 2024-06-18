@@ -21,7 +21,7 @@ class TimeAvailability:
         text = text.lower().replace(" ", "")
         
         self.time_table = []
-        for time in json.load(open("session_times.json"))["session_times"]:
+        for time in json.load(open("settings.json"))["session_times"]:
             start = time["start"].replace(" ", "")
             end = time["end"].replace(" ", "")
             

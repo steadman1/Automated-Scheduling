@@ -7,8 +7,23 @@ from tools.exceptions import NoFileFoundException
 from tools.read_csv import get_availability_csv_file
 from tools.lessons_instructor import LessonsInstructor, LessonsInstructors
 
-def handle_scheduling(instructors):
-    pass
+def handle_swimmer_count_by_level():
+    swimmer_count_by_level = []
+    for level in range(5):
+        count = int(input(f"Enter the number of swimmers for level {level + 1}: "))
+        swimmer_count_by_level.append(count)
+    
+    return swimmer_count_by_level
+
+def handle_scheduling(instructors, swimmer_count_by_level):
+    """
+    builds a schedule of availability for
+    given instructors based on a given
+    count of lessons classes sold for 
+    each given level
+    """
+    
+    
 
 def handle_instructors():
     output = get_availability_csv_file()
@@ -28,7 +43,7 @@ if __name__ in "__main__":
     instructors = handle_instructors()
     instructors.set_session_dates(session_dates)
     
-    handle_scheduling(instructors)
+    swimmer_count_by_level = handle_swimmer_count_by_level()
     
-    print(instructors)
+    handle_scheduling(instructors, swimmer_count_by_level)
     
