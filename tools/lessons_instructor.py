@@ -78,9 +78,9 @@ class LessonsInstructor():
         string = f"{self.first_name} {self.last_name} of {self.seniority} year(s) is available {self.time_availability}"
         days_off = self.daily_availability.get_days_off()
         if len(days_off) > 0:
-            string += f" and is off on {", ".join(days_off)}"
+            string += f"and is off on {", ".join(days_off)}"
         else:
-            string += " and is available every day"
+            string += "and is available every day"
         return string
     
     @classmethod

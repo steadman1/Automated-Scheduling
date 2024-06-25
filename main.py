@@ -4,6 +4,7 @@ import json
 import sys
 sys.path.append('./tools')
 
+from tools.day import Day
 from tools.exceptions import NoFileFoundException
 from tools.read_csv import get_availability_csv_file
 from tools.lessons_instructor import LessonsInstructor, LessonsInstructors
@@ -49,13 +50,15 @@ def handle_instructors():
         return LessonsInstructors.from_csv(reader, skip=1)
 
 if __name__ in "__main__":
-    session_dates = input("Enter all dates of session (ex. 11, 12, 13, 14): ")
-    session_dates = session_dates.replace(" ", "").split(",")
+    start_date = input("Enter start date of session (ex. June 3): ")
+    end_date = input("Enter start date of session (ex. June 13): ")
+    session_dates = Day.generate_days_between(Day.interpret(start_date), Day.interpret(end_date))
     
     instructors = handle_instructors()
     instructors.set_session_dates(session_dates)
     
+    print(instructors)
+    
     schedule = handle_scheduling(instructors, session_dates)
     
     print(schedule)
-    
