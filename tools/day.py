@@ -78,3 +78,17 @@ class Day:
             days.append(Day(current_date.year, current_date.month, current_date.day))
             current_date = Day.next_day(current_date)
         return days
+        
+    @staticmethod
+    def condense_days_between(days):
+        """
+        takes a list of Day objects,
+        returns a string representing
+        a range of days
+        """
+        if len(days) == 0:
+            return ""
+        elif len(days) == 1:
+            return str(days[0])
+        else:
+            return f"{days[0]} - {days[-1]}"

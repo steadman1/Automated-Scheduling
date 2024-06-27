@@ -1,12 +1,23 @@
 {
   "pool_count": 2,
   "max_class_count": 14,
-  "highest_level": 5,
+  "highest_level": 2,
   "swimmer_count_per_class": 5,
   "strict_instructor_levels": false,
   
   "session_times": [
-    {"start": "10:00am", "end": "10:45am"}
+    {"start": "10:00am", "end": "10:45am"},
+    {"start": "10:45am", "end": "11:30am"},
+    {"start": "11:30am", "end": "12:15pm"},
+    {"start": "12:15pm", "end": "1:00pm"},
+    {"start": "1:00pm", "end": "1:45pm"},
+    {"start": "1:45pm", "end": "2:30pm"},
+    {"start": "2:30pm", "end": "3:15pm"},
+    {"start": "3:15pm", "end": "4:00pm"},
+    {"start": "4:00pm", "end": "4:45pm"},
+    {"start": "4:45pm", "end": "5:30pm"},
+    {"start": "5:30pm", "end": "6:15pm"},
+    {"start": "6:15pm", "end": "7:00pm"}
   ],
   "old_session_times": [
     {"start": "10:00am", "end": "10:45am"},

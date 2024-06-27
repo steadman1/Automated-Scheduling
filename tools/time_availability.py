@@ -44,6 +44,13 @@ class TimeAvailability:
         
         self.availability = [str(time) in text for time in self.time_table]
         
+    def is_available(self, time):
+        """
+        returns true if instructor is available
+        at the given time
+        """
+        return str(time) in [str(time_tab) for time_tab in self.time_table]
+        
     def __str__(self) -> str:
         """
         returns instructor availablity in

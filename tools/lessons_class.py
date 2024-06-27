@@ -1,9 +1,11 @@
 import json
+from day import Day
 
 class LessonsClass:
     def __init__(self, level, swimmer_count):
         self.levels = [level]
         self.swimmer_count = swimmer_count
+        self.requires_time_share = False
         self.instructors = []
 
     def set_timing(self, time, session_dates):
@@ -26,22 +28,26 @@ class LessonsClass:
         return len(self.instructors) > 1
     
     def __str__(self):
-        return f"Levels: {self.levels}, Size: {self.swimmer_count} Instructors: {self.instructors}"
+        return f"Levels: {self.levels}, Size: {self.swimmer_count} Instructors: {[instructor.name for instructor in self.instructors]} Time: [{self.time}] Dates: {Day.condense_days_between(self.session_dates)} Unfilled Time Share: {self.requires_time_share}"
         
     @staticmethod
-    def _place_classes(swimmer_counts_by_level):
+    def _place_classes(swimmer_counts_by_level, time, session_dates):
         swimmer_count_per_class = json.load(open("settings.json"))["swimmer_count_per_class"]
         lessons_classes = []
         for index, swimmer_count_by_level in enumerate(swimmer_counts_by_level):
             level = index + 1
 
             overflow = swimmer_count_by_level % swimmer_count_per_class
-                
+            
             for n in range(int(swimmer_count_by_level // swimmer_count_per_class)):
-                lessons_classes.append(LessonsClass(level, swimmer_count_per_class))
+                lesson_class = LessonsClass(level, swimmer_count_per_class)
+                lesson_class.set_timing(time, session_dates)
+                lessons_classes.append(lesson_class)
                 
             if overflow > 0:
-                lessons_classes.append(LessonsClass(level, overflow))
+                lesson_class = LessonsClass(level, overflow)
+                lesson_class.set_timing(time, session_dates)
+                lessons_classes.append(lesson_class)
                 continue
                 
         return lessons_classes
@@ -111,7 +117,7 @@ class LessonsClass:
         return lessons_classes
 
     @staticmethod
-    def get_lessons_classes_from_levels(swimmer_counts_by_level):
+    def get_lessons_classes_from_levels(swimmer_counts_by_level, time, session_dates):
         """
         takes a list of swimmers in level and
         determines the amount of classes needed
@@ -120,8 +126,8 @@ class LessonsClass:
         only one level or a combination of the 
         labeled level and level below it
         """     
-        
-        lessons_classes = LessonsClass._place_classes(swimmer_counts_by_level)
+
+        lessons_classes = LessonsClass._place_classes(swimmer_counts_by_level, time, session_dates)
         lessons_classes = LessonsClass._relevel_classes(lessons_classes)
         
         previous_lesssons_classes = []

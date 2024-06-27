@@ -20,4 +20,4 @@ class DailyAvailability:
         """
         returns a list of days off
         """
-        return [self.session_dates[i].short_string() for i, day in enumerate(self.days_available) if not day]
+        return [str(self.session_dates[i]) for i, day in enumerate(self.days_available) if not day]
