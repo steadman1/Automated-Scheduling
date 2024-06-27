@@ -31,6 +31,8 @@ class LessonsInstructors():
         for lessons_class in classes:
             level = max(lessons_class.levels)
             
+            # print(lessons_class.time)
+            # print([instructor.name for instructor in self.get_available_time_instructors(lessons_class.time)])
             for instructor in self.get_available_time_instructors(lessons_class.time):
                 if level in instructor.preferred_levels or (max(instructor.preferred_levels) >= level \
                     and not json.load(open("settings.json"))["strict_instructor_levels"]):

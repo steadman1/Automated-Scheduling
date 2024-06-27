@@ -81,6 +81,8 @@ if __name__ in "__main__":
     instructors = handle_availability()
     instructors.set_session_dates(session_dates)
     
+    print(instructors.instructors[0].time_availability.time_table)
+    
     schedule = handle_scheduling(instructors, session_dates)
     
     print("\n".join([str(lessons_class) for lessons_class in schedule]))

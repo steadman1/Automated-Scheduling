@@ -42,6 +42,7 @@ class TimeAvailability:
         for time in json.load(open("settings.json"))["session_times"]:
             self.time_table.append(TimeBlock.from_json(time))
         
+    
         self.availability = [str(time) in text for time in self.time_table]
         
     def is_available(self, time):
@@ -49,7 +50,8 @@ class TimeAvailability:
         returns true if instructor is available
         at the given time
         """
-        return str(time) in [str(time_tab) for time_tab in self.time_table]
+        return str(time) in [str(time_tab) for time_tab in [self.time_table[index] for index, value in enumerate(self.availability) if value]
+]
         
     def __str__(self) -> str:
         """
