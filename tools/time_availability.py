@@ -72,7 +72,7 @@ class TimeAvailability:
             if not index == 0:
                 string += "and "
             next_index, time_block = recursive_next_time(index)
-            string += f"from {self.time_table[indicies[index]].start}{self.time_table[indicies[index]].s_meridiem} to {time_block.end}{time_block.e_meridiem} "
+            string += f"from {self.time_table[indicies[index]].start}{self.time_table[indicies[index]].s_meridiem} to {time_block.end}{time_block.e_meridiem}"
             index += next_index + 1
     
         return string
