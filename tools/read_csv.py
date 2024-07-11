@@ -28,12 +28,21 @@ def get_availability_csv_file():
         for index, csv_file in enumerate(csv_files):
             print(f"[ {index + 1} ] - {csv_file}")
             
-        input("Enter the index of the desired file: ")
+        desired_index = int(input("Enter the index of the desired file: ")) - 1
         
     if len(csv_files) < 1:
        raise NoFileFoundException(f"No \"*.csv\" files were found in the {CSV_DIRECTORY_NAME} folder. Please add one.") 
     
     return str((CSV_DIRECTORY).joinpath(csv_files[desired_index]))
+
+def get_session_count(file_path):
+    """
+    Counts the number of rows in a given CSV file.
+    """
+    with open(file_path, 'r', newline='') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        row_count = sum(1 for row in csv_reader)
+    return int((row_count - 6) / 2)
 
 if __name__ == "__main__":
     availability = get_availability_csv_file()

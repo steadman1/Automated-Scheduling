@@ -13,9 +13,9 @@ class LessonsInstructors():
         if any(instructor.time_availability.availability):
             self.instructors.append(instructor)
             
-    def set_session_dates(self, session_dates):
+    def set_session_dates(self, session_dates, session_index):
         for instructor in self.instructors:
-            instructor.set_daily_availability(session_dates)
+            instructor.set_daily_availability(session_dates, session_index)
             
     def get_available_time_instructors(self, time):
         """
@@ -75,7 +75,7 @@ class LessonsInstructors():
         return "\n".join([str(instructor) for instructor in self.instructors])
     
     @classmethod
-    def from_csv(cls, reader, skip=1):
+    def from_csv(cls, reader, session_index, skip=1):
         """
         takes a full *.csv sheet in reader,
         iterates through rows and adds each
@@ -87,7 +87,7 @@ class LessonsInstructors():
         
         for index, row in enumerate(reader):
             if index >= skip:
-                instructor = LessonsInstructor.from_csv(row)
+                instructor = LessonsInstructor.from_csv(row, session_index)
                 instructors.add_instructor(instructor)
                 
         instructors.sort()
@@ -114,8 +114,8 @@ class LessonsInstructor():
         self.time_availability = time_availability
         self.classes = []
     
-    def set_daily_availability(self, session_dates):
-        self.daily_availability = DailyAvailability(session_dates, self.row[6])
+    def set_daily_availability(self, session_dates, session_index):
+        self.daily_availability = DailyAvailability(session_dates, self.row[6 + session_index * 2])
     
     def add_class(self, lessons_class):
         self.classes.append(lessons_class)
@@ -143,7 +143,7 @@ class LessonsInstructor():
         return string
     
     @classmethod
-    def from_csv(cls, row):
+    def from_csv(cls, row, session):
         """
         takes a *.csv row,
         returns a LessonsInstructor object
@@ -155,5 +155,5 @@ class LessonsInstructor():
             first_name=row[2],
             seniority=row[3],
             preferred_levels=row[4].split(";"),
-            time_availability=TimeAvailability(row[5])
+            time_availability=TimeAvailability(row[5 + session * 2])
         )
